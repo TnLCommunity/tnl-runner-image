@@ -1,0 +1,48 @@
+version: 2.1
+
+jobs:
+  bumpversion:
+    branches:
+      only:
+        - master
+    docker:
+      image:
+        - python:3.7-slim
+    steps:
+      - checkout
+      - run:
+          name: bumpversion
+          command: |
+            apt-get update
+            apt-get install -y git
+            git config --global user.email "circlecistuff@todandlorna.com"
+            git config --global user.name "Runner"
+            git fetch origin
+            git checkout -B master
+            pip install bumpversion
+            bumpversion patch --verbose  # bumpversion installed in runner
+            git push origin master --tags
+
+  publish_image:
+    branches:
+      only:
+      - master
+    environment:
+      VERSION: 0.0.25
+      TAG: tnlcommunity/tnl-runner-image:0.0.25
+      TAG_LATEST: tnlcommunity/tnl-runner-image:latest
+    docker:
+      image:
+      - python:3.7-slim
+    steps:
+      - checkout
+      - run:
+          name: bumpversion
+          command: |
+            ls -al
+            docker login -u ${HUB_USERNAME} -p ${HUB_TOKEN} ${REPO}
+            docker build . -t ${TAG}
+            docker tag ${TAG} ${TAG_LATEST}
+            docker push ${TAG}
+            docker push ${TAG_LATEST}
+          
