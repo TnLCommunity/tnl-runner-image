@@ -23,19 +23,17 @@ jobs:
             git push origin master --tags
 
   publish_image:
+    machine: true
     environment:
       VERSION: 0.0.29
       TAG: tnlcommunity/tnl-runner-image:0.0.29
       TAG_LATEST: tnlcommunity/tnl-runner-image:latest
-    docker:
-      - image: docker:stable-dind
     steps:
       - checkout
       - run:
           name: publich image
           command: |
-            apt-get update -y && apt-get install -y docker.io
-            docker login -u ${HUB_USERNAME} -p ${HUB_TOKEN} ${REPO}
+            docker login -u ${HUB_USERNAME} -p ${HUB_TOKEN}
             docker build . -t ${TAG}
             docker tag ${TAG} ${TAG_LATEST}
             docker push ${TAG}
