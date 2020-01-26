@@ -31,7 +31,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: publich image
+          name: publish image
           command: |
             docker login -u ${HUB_USERNAME} -p ${HUB_TOKEN}
             docker build . -t ${TAG}
