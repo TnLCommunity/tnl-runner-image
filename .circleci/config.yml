@@ -25,8 +25,8 @@ jobs:
   publish_image:
     machine: true
     environment:
-      VERSION: 0.0.30
-      TAG: tnlcommunity/tnl-runner-image:0.0.30
+      VERSION: 0.0.31
+      TAG: tnlcommunity/tnl-runner-image:0.0.31
       TAG_LATEST: tnlcommunity/tnl-runner-image:latest
     steps:
       - checkout
