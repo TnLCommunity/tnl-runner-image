@@ -41,17 +41,17 @@ jobs:
 workflows:
   version: 2
   bumpversion:
-    filters:
-      branches:
-        only:
-          - master
     jobs:
-      - bumpversion
+      - bumpversion:
+          filters:
+            branches:
+              only:
+                - master
   publish_image:
-    filters:
-      tags:
-        only: /^v.*/
-      branches:
-        ignore: /.*/
     jobs:
-      - publish_image
+      - publish_image: 
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
