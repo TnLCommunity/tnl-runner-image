@@ -10,7 +10,7 @@ jobs:
           name: Avoid hosts unknown for github
           command: mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
       - run:
-          name: bumpversion
+          name: bump version
           command: |
             apt-get update
             apt-get install -y git
@@ -28,11 +28,11 @@ jobs:
       TAG: tnlcommunity/tnl-runner-image:0.0.28
       TAG_LATEST: tnlcommunity/tnl-runner-image:latest
     docker:
-      - image: python:3.7-slim
+      - image: docker:stable-dind
     steps:
       - checkout
       - run:
-          name: bumpversion
+          name: publich image
           command: |
             apt-get update -y && apt-get install -y docker.io
             docker login -u ${HUB_USERNAME} -p ${HUB_TOKEN} ${REPO}
