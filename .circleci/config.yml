@@ -24,8 +24,8 @@ jobs:
 
   publish_image:
     environment:
-      VERSION: 0.0.28
-      TAG: tnlcommunity/tnl-runner-image:0.0.28
+      VERSION: 0.0.29
+      TAG: tnlcommunity/tnl-runner-image:0.0.29
       TAG_LATEST: tnlcommunity/tnl-runner-image:latest
     docker:
       - image: docker:stable-dind
