@@ -34,7 +34,7 @@ jobs:
       - run:
           name: bumpversion
           command: |
-            ls -al
+            apt-get update -y && apt-get install -y docker-ce
             docker login -u ${HUB_USERNAME} -p ${HUB_TOKEN} ${REPO}
             docker build . -t ${TAG}
             docker tag ${TAG} ${TAG_LATEST}
