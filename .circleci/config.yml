@@ -2,12 +2,8 @@ version: 2.1
 
 jobs:
   bumpversion:
-    branches:
-      only:
-        - master
     docker:
-      image:
-        - python:3.7-slim
+      - image: python:3.7-slim
     steps:
       - checkout
       - run:
@@ -24,16 +20,12 @@ jobs:
             git push origin master --tags
 
   publish_image:
-    branches:
-      only:
-      - master
     environment:
       VERSION: 0.0.25
       TAG: tnlcommunity/tnl-runner-image:0.0.25
       TAG_LATEST: tnlcommunity/tnl-runner-image:latest
     docker:
-      image:
-      - python:3.7-slim
+      - image: python:3.7-slim
     steps:
       - checkout
       - run:
@@ -45,4 +37,21 @@ jobs:
             docker tag ${TAG} ${TAG_LATEST}
             docker push ${TAG}
             docker push ${TAG_LATEST}
-          
+
+workflows:
+  version: 2
+  bumpversion:
+    filters:
+      branches:
+        only:
+          - master
+    jobs:
+      - bumpversion
+  publish_image:
+    filters:
+      tags:
+        only: /^v.*/
+      branches:
+        ignore: /.*/
+    jobs:
+      - publish_image
